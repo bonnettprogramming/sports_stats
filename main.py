@@ -5,7 +5,12 @@ default_config_file = 'config/test.ini'
 
 
 def test_api_call(key, service):
-    url = "https://api.natstat.com/v2/players/{service}/?key={key}&format=json&id=21".format(service=service, key=key)
+    params = {
+        'service': service,
+        'key': key
+    }
+    # url = "https://api.natstat.com/v2/players/{service}/?key={key}&format=json&id=21".format(service=service, key=key)
+    url = "https://api.natstat.com/v2/teams/{service}/?key={key}&format=json&".format(**params)
     result = requests.get(url)
     result_json = result.json()
     print('result_json', result_json)
@@ -13,6 +18,12 @@ def test_api_call(key, service):
 
 
 def print_item(item, level):
+    """
+    print an item
+    :param item:
+    :param level:
+    :return:
+    """
     output = ""
     for index in range(level):
         output += '\t'
@@ -21,6 +32,12 @@ def print_item(item, level):
 
 
 def print_json(json_object, level=0):
+    """
+    print a human-readable version of json object
+    :param json_object: this should be a decoded json object or dictionary
+    :param level: leave this alone
+    :return: nothing
+    """
     for key in json_object:
         print_item(key, level)
         if type(json_object[key]) is dict:
@@ -30,6 +47,11 @@ def print_json(json_object, level=0):
 
 
 def create_config(filename=default_config_file):
+    """
+    Create a default config file
+    :param filename:
+    :return:
+    """
     test = configparser.ConfigParser()
     test['api_info'] = {
         'key': 'XXXX-XXXXXX',
@@ -42,6 +64,11 @@ def create_config(filename=default_config_file):
 
 
 def load_config(filename=default_config_file):
+    """
+    load the config file
+    :param filename: only provide if you want to override default
+    :return:
+    """
     parser = configparser.ConfigParser()
     with open(filename, 'r') as file:
         parser.read_file(file)
