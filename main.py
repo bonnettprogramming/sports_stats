@@ -17,7 +17,7 @@ def test_api_call(key, service):
     print_json(result_json)
 
 
-def print_item(item, level):
+def print_item(item, level=0):
     """
     print an item
     :param item:
